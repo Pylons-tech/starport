@@ -402,9 +402,9 @@ func handleBroadcastResult(resp *sdktypes.TxResponse, err error) error {
 func prepareFactory(clientCtx client.Context, txf tx.Factory) (tx.Factory, error) {
 	from := clientCtx.GetFromAddress()
 
-	if err := txf.AccountRetriever().EnsureExists(clientCtx, from); err != nil {
-		return txf, err
-	}
+	// if err := txf.AccountRetriever().EnsureExists(clientCtx, from); err != nil {
+	//	return txf, err
+	// }
 
 	initNum, initSeq := txf.AccountNumber(), txf.Sequence()
 	if initNum == 0 || initSeq == 0 {
