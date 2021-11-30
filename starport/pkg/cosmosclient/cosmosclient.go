@@ -270,10 +270,11 @@ func (c Client) BroadcastTxWithProvision(accountName string, msgs ...sdktypes.Ms
 		WithFromName(accountName).
 		WithFromAddress(accountAddress)
 
-	txf, err := prepareFactory(context, c.Factory)
-	if err != nil {
-		return 0, nil, err
-	}
+	//txf, err := prepareFactory(context, c.Factory)
+	//if err != nil {
+	//	return 0, nil, err
+	//}
+  txf := c.Factory
 
 	_, gas, err = tx.CalculateGas(context, txf, msgs...)
 	if err != nil {
@@ -402,9 +403,9 @@ func handleBroadcastResult(resp *sdktypes.TxResponse, err error) error {
 func prepareFactory(clientCtx client.Context, txf tx.Factory) (tx.Factory, error) {
 	from := clientCtx.GetFromAddress()
 
-	// if err := txf.AccountRetriever().EnsureExists(clientCtx, from); err != nil {
-	//	return txf, err
-	// }
+	 if err := txf.AccountRetriever().EnsureExists(clientCtx, from); err != nil {
+		return txf, err
+	 }
 
 	initNum, initSeq := txf.AccountNumber(), txf.Sequence()
 	if initNum == 0 || initSeq == 0 {
